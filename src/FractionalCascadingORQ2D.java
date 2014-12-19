@@ -170,7 +170,7 @@ public class FractionalCascadingORQ2D implements ORQ2D {
 
     List<P> res = collectFromTheRight(n.r);
     res.addAll(collectFromTheLeft(n.l));
-    if (n.p.y <= y2 && n.p.y >= y1)
+    if (n.p.y <= y2 && n.p.y >= y1 && n.p.x <= x2 && n.p.x >= x1)
       res.add(n.p);
     return res.toArray(new P[]{});
   }

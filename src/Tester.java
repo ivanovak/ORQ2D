@@ -5,8 +5,8 @@ import java.util.Random;
 import java.util.Set;
 
 public class Tester {
-  final int POINTS_FROM = 100000;
-  final int POINTS_TO = 1000000;
+  final int POINTS_FROM = 10;
+  final int POINTS_TO = 10000000;
   final int SPREAD_RANGE = 1000000;
   final int TESTS = 10;
   final int div = 1000000;
@@ -16,7 +16,7 @@ public class Tester {
 
   void start() {
     Random rand = new Random();
-    for (int FROM = 10; FROM <= 1000000; FROM *= 2) {
+    for (int FROM = POINTS_FROM; FROM <= POINTS_TO; FROM *= 2) {
       long acct1 = 0, acct2 = 0, accnum = 0;
       int TO = FROM * 10;
       for (int t = 0; t < TESTS; ++t) {
@@ -42,8 +42,15 @@ public class Tester {
         long time2 = System.nanoTime();
         acct1 += time1 - time;
         acct2 += time2 - time1;
-        if (res1.length != res2.length) throw new RuntimeException("Wrong result");
-//      System.out.println("FC: " + ((time1 - time) / (double)div) + "; Naive: " + ((time2 - time1) / (double)div));
+        if (res1.length != res2.length) {
+          System.err.println("REQ: " + x0 + " " + y0 + " " + w + " " + h);
+          System.err.print("fc:");
+          for (P p : res1) System.err.print(p + " ");
+          System.err.print("\nnaive: ");
+          for (P p : res2) System.err.print(p + " ");
+          System.err.println();
+          throw new RuntimeException("Wrong result");
+        }
       }
       System.out.println("AvgNum: " + (accnum / TESTS) + "; AvgFC: " + (acct1 / (double)TESTS / div) +
         "; AvgNaive: " + (acct2 / (double)TESTS / div));
