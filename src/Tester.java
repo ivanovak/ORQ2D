@@ -6,9 +6,9 @@ import java.util.Set;
 
 public class Tester {
   final int POINTS_FROM = 10;
-  final int POINTS_TO = 10000000;
+  final int POINTS_TO = 100000000;
   final int SPREAD_RANGE = 1000000;
-  final int TESTS = 10;
+  final int QUERIES = 200;
   final int div = 1000000;
   public static void main(String[] args) {
     new Tester().start();
@@ -16,21 +16,18 @@ public class Tester {
 
   void start() {
     Random rand = new Random();
-    for (int FROM = POINTS_FROM; FROM <= POINTS_TO; FROM *= 2) {
-      long acct1 = 0, acct2 = 0, accnum = 0;
-      int TO = FROM * 10;
-      for (int t = 0; t < TESTS; ++t) {
-        Set<P> pts = new HashSet<>();
-        int num = rand.nextInt(TO - FROM) + FROM;
-        accnum += num;
-        while (pts.size() != num) {
-          pts.add(new P(rand.nextInt(SPREAD_RANGE), rand.nextInt(SPREAD_RANGE)));
-        }
+    for (int PTS = POINTS_FROM; PTS <= POINTS_TO; PTS *= 2) {
+      long acct1 = 0, acct2 = 0;
+      Set<P> pts = new HashSet<>();
+      while (pts.size() != PTS) {
+        pts.add(new P(rand.nextInt(SPREAD_RANGE), rand.nextInt(SPREAD_RANGE)));
+      }
 
-        P[] points = pts.toArray(new P[]{});
-        ORQ2D t1 = new FractionalCascadingORQ2D(points);
-        ORQ2D t2 = new NaiveORQ2D(points);
+      P[] points = pts.toArray(new P[]{});
+      ORQ2D t1 = new FractionalCascadingORQ2D(points);
+      ORQ2D t2 = new NaiveORQ2D(points);
 
+      for (int t = 0; t < QUERIES; ++t) {
         int x0 = rand.nextInt(SPREAD_RANGE);
         int y0 = rand.nextInt(SPREAD_RANGE);
         int w = rand.nextInt(SPREAD_RANGE) + 1;
@@ -52,8 +49,8 @@ public class Tester {
           throw new RuntimeException("Wrong result");
         }
       }
-      System.out.println("AvgNum: " + (accnum / TESTS) + "; AvgFC: " + (acct1 / (double)TESTS / div) +
-        "; AvgNaive: " + (acct2 / (double)TESTS / div));
+      System.out.println("PTS: " + PTS + "; AvgFC: " + (acct1 / (double)QUERIES / div) +
+        "; AvgNaive: " + (acct2 / (double)QUERIES / div));
     }
 
   }
