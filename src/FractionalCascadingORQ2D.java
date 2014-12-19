@@ -22,6 +22,7 @@ public class FractionalCascadingORQ2D implements ORQ2D {
     P[] points_y = Arrays.copyOf(points, points.length);
     Arrays.sort(points, new Comparator<P>() {
       public int compare(P p1, P p2) {
+        if (p1.x == p2.x) return p1.y - p2.y;
         return p1.x - p2.x;
       }
     });
@@ -165,7 +166,7 @@ public class FractionalCascadingORQ2D implements ORQ2D {
     if (n.r != null)
       rptr = lower(n.r.points_y, y0, 0, n.r.points_y.length, false);
     if (n.l != null)
-      lptr = lower(n.l.points_y, y0, 0, n.r.points_y.length, false);
+      lptr = lower(n.l.points_y, y0, 0, n.l.points_y.length, false);
 
     List<P> res = collectFromTheRight(n.r);
     res.addAll(collectFromTheLeft(n.l));
