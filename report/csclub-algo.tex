@@ -1,0 +1,93 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{amsmath,amssymb}
+\usepackage{cmap}					
+\usepackage[T2A]{fontenc}			
+\usepackage[utf8]{inputenc}			
+\usepackage[english,russian]{babel}	
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage[margin=0.5in]{geometry}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},  
+  basicstyle=\footnotesize,        
+  breaklines=true,                 
+  captionpos=b,                    
+  commentstyle=\color{mygreen},    
+  escapeinside={\%*}{*)},          
+  keywordstyle=\color{blue},       
+  stringstyle=\color{mymauve},     
+}
+
+
+\title{CS-Club, осенний семестр 2014, курс алгоритмов. \\Orthogonal Range Query 2D implementation with fractional cascading}
+
+\author{Ivanov A.K.}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Постановка задачи}
+Реализовать структуру данных, содержащую мн-во точек на плоскости и поддерживающую запрос:
+\\"выдай все точки из прямоугольника: $(x_0, y_0, w, h)$"
+\\протестировать корректность.
+\\протестировать скорость в сравнении с наивным алгоритмом.
+
+\section{Реализация}
+Интерфейс:
+\begin{lstlisting}[language=java]
+public interface ORQ2D {
+  P[] query(int x0, int y0, int w, int h);
+}
+\end{lstlisting}
+Основные методы:
+\begin{lstlisting}[language=java]
+//`'points`' should be a set
+public FractionalCascadingORQ2D(P[] points) 
+// recursive tree generator
+XNode generate(P[] points_x, int l, int r, P[] points_y) 
+
+//O(log(n)) - total time on each query
+List<P> addLeft(XNode n, int ptr)
+List<P> addRight(XNode n, int ptr)
+
+//O(log(n) + k) - total time on each query
+List<P> collectFromTheLeft(XNode n)
+List<P> collectFromTheRight(XNode n)
+\end{lstlisting}
+\section{Тестирование}
+\begin{enumerate}
+\item Генерируем N=$2^i*10$ равномерно распределенных по плоскости точек со значениями координат в  $[0\dots10^6]$.
+\item Генерируем 200 случайных запросов вида $(x_0, y_0, w + 1, h + 1)$ где каждое значение из диапазона $[0\dots10^6]$.
+\item Усредняем время работы каждого алгоритма.
+\end{enumerate}
+
+\section{Результаты тестирования}
+
+\vspace{1em}
+\begin{tabular}{|c|r|r|r|}
+\hline
+n/algo & FC & Naive \\
+\hline
+$81920$ & 0.45 ms & 0.59 ms \\
+\hline
+$655360$ & 4.22 ms & 12.38 ms \\
+\hline
+$1310720$ & 12.83 ms & 20.39 ms \\
+\hline
+$5242880$ & 57.20 ms & 96.78 ms \\
+\hline
+\end{tabular}
+
+
+\end{document}
