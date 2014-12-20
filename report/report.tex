@@ -88,6 +88,34 @@ $1310720$ & 12.83 ms & 20.39 ms \\
 $5242880$ & 57.20 ms & 96.78 ms \\
 \hline
 \end{tabular}
+\\
+\\ Версия с $w, h \in [1 \dots 30]$
+\\
+\begin{tabular}{|c|r|r|r|}
+\hline
+n/algo & FC & Naive \\
+\hline
+$327680$ & 0.03 ms & 1.58 ms \\
+\hline
+$655360$ & 0.03 ms & 4.5 ms \\
+\hline
+$1310720$ & 0.03 ms & 10.38 ms \\
+\hline
+\end{tabular}
+\\
+\\ Версия с $w \in [1 \dots 1000000]$ и $h \in [1 \dots 10]$
+\\
+\begin{tabular}{|c|r|r|r|}
+\hline
+n/algo & FC & Naive & Binary \\
+\hline
+$163840$ & 0.01 ms & 1.1 ms & 0.44 ms\\
+\hline
+$327680$ & 0.02 ms & 2.9 ms & 0.96 ms\\
+\hline
+$655360$ & 0.02 ms & 6.6 ms & 2.54 ms\\
+\hline
+\end{tabular}
 
 
 \end{document}
