@@ -35,25 +35,10 @@ public class FractionalCascadingORQ2D implements ORQ2D {
     root = generate(points, 0, points.length, points_y);
   }
 
-  int lower(P[] pts, int val, int l, int r, boolean is_x) {
-    int cmpval;
-    while (l < r) {
-      int m = l + (r - l) / 2;
-      if (is_x) cmpval = pts[m].x; else cmpval = pts[m].y;
-      if (cmpval < val) {
-        l = m + 1;
-      } else {
-        r = m;
-      }
-    }
-
-    return r;
-  }
-
   XNode generate(P[] points_x, int l, int r, P[] points_y) {
     if (r - l == 0) return null;
     int idx = l + (r - l) / 2;
-    int xelemsleft = idx - lower(points_x, points_x[idx].x, l, r, true);
+    int xelemsleft = idx - Utils.lower(points_x, points_x[idx].x, l, r, true);
     P[] pyleft = new P[idx - l];
     P[] pyright = new P[r - idx - 1];
     int llink[] = new int[r - l];
@@ -164,9 +149,9 @@ public class FractionalCascadingORQ2D implements ORQ2D {
     }
 
     if (n.r != null)
-      rptr = lower(n.r.points_y, y0, 0, n.r.points_y.length, false);
+      rptr = Utils.lower(n.r.points_y, y0, 0, n.r.points_y.length, false);
     if (n.l != null)
-      lptr = lower(n.l.points_y, y0, 0, n.l.points_y.length, false);
+      lptr = Utils.lower(n.l.points_y, y0, 0, n.l.points_y.length, false);
 
     List<P> res = collectFromTheRight(n.r);
     res.addAll(collectFromTheLeft(n.l));
