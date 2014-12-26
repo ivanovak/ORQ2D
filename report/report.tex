@@ -3,10 +3,10 @@
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{amsmath,amssymb}
-\usepackage{cmap}					
-\usepackage[T2A]{fontenc}			
-\usepackage[utf8]{inputenc}			
-\usepackage[english,russian]{babel}	
+\usepackage{cmap}         
+\usepackage[T2A]{fontenc}     
+\usepackage[utf8]{inputenc}     
+\usepackage[english,russian]{babel} 
 
 \usepackage{listings}
 \usepackage{color}
@@ -44,32 +44,26 @@
 \\протестировать скорость в сравнении с наивным алгоритмом.
 
 \section{Реализация}
-Интерфейс:
+Интерфейс запроса:
 \begin{lstlisting}[language=java]
 public interface ORQ2D {
   P[] query(int x0, int y0, int w, int h);
 }
 \end{lstlisting}
-Основные методы:
-\begin{lstlisting}[language=java]
-//`'points`' should be a set
-public FractionalCascadingORQ2D(P[] points) 
-// recursive tree generator
-XNode generate(P[] points_x, int l, int r, P[] points_y) 
+описания основных методов См. в комментариях к коду.
 
-//O(log(n)) - total time on each query
-List<P> addLeft(XNode n, int ptr)
-List<P> addRight(XNode n, int ptr)
-
-//O(log(n) + k) - total time on each query
-List<P> collectFromTheLeft(XNode n)
-List<P> collectFromTheRight(XNode n)
-\end{lstlisting}
-\section{Тестирование}
+\section{Корректность/Бенчмаркинг}
 \begin{enumerate}
+\item Тесты с большим средним $k$ на запрос (мощность искомого множества):\begin{enumerate}
 \item Генерируем N=$2^i*10$ равномерно распределенных по плоскости точек со значениями координат в  $[0\dots10^6]$.
-\item Генерируем 200 случайных запросов вида $(x_0, y_0, w + 1, h + 1)$ где каждое значение из диапазона $[0\dots10^6]$.
+\item \label{itm:generate} Генерируем 200 случайных запросов вида $(x_0, y_0, w + 1, h + 1)$ где каждое значение $x_0, y_0, w, h$ из диапазона $[0\dots10^6]$. Если мы тестируем корректность, то на этом шаге мы останавливаемся, просто проверяя совпадение множества точек с наивным алгоритмом.
 \item Усредняем время работы каждого алгоритма.
+\end{enumerate}
+\item Тесты с небольшим средним $k$ на запрос (меняется только пункт \ref{itm:generate}):\begin{enumerate}
+\item Генерируем N=$2^i*10$ равномерно распределенных по плоскости точек со значениями координат в  $[0\dots10^6]$.
+\item Генерируем 200 случайных запросов вида $(x_0, y_0, w + 1, h + 1)$ где каждое значения $x_0, y_0$ из диапазона $[0\dots10^6]$, а $w, h \in [1 \dots 30]$ в первом случае и $w \in [1 \dots 1000000]$ и $h \in [1 \dots 10]$ во втором.
+\item Усредняем время работы каждого алгоритма.
+\end{enumerate}
 \end{enumerate}
 
 \section{Результаты тестирования}
