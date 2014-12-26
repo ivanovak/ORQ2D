@@ -46,6 +46,7 @@ public class Tester {
         acct1 += time1 - time;
         acct2 += time2 - time1;
         acct3 += time3 - time2;
+
         if (res1.length != res2.length) {
           System.err.println("REQ: " + x0 + " " + y0 + " " + w + " " + h);
           System.err.print("fc:");
@@ -56,6 +57,11 @@ public class Tester {
           for (P p : res3) System.err.print(p + " ");
           System.err.println();
           throw new RuntimeException("Wrong result");
+        } else {
+          Set<P> result = new HashSet<>();
+          for (P p : res2) { result.add(p); }
+          for (P p : res1) { if (!result.contains(p)) {
+            throw new RuntimeException("Wrong point: " + p); } }
         }
       }
       System.out.println("PTS: " + PTS + "\tFC: " + (acct1 / (double)QUERIES / div) +
